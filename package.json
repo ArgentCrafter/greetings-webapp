@@ -1,13 +1,13 @@
 {
   "name": "greetings-webapp",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +18,15 @@
     "express-handlebars": "^5.3.3",
     "express-session": "^1.17.2",
     "pg": "^8.7.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArgentCrafter/greetings-webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ArgentCrafter/greetings-webapp/issues"
+  },
+  "homepage": "https://github.com/ArgentCrafter/greetings-webapp#readme",
+  "description": ""
 }

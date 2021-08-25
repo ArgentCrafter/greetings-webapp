@@ -34,12 +34,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get("/", function (req, res) {
-    console.log(req.query.nameInput);
-    console.log(req.query.langInput);
     if (req.query.nameInput) {
         if (req.query.langInput) {
             res.render('index', { displayMessage: factory().displayString( req.query.nameInput, req.query.langInput) });
-        }}
+        } else {
+            res.render('index')
+        }
+    }
 });
 
 app.post('/action', function (req, res) {

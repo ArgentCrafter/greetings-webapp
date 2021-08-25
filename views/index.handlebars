@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="greet.css">
+    <title>Greetings!</title>
+</head>
+<body>
+    <div class="containerAll">
+        <form class="content">
+            <div class="heading">
+                <h1>Greetings!</h1>
+            </div>  
+                <br><br>
+                <form action="/action" method="POST">
+                    <div class="inputCounter">
+                        <div style="margin: auto;">
+                            <label for="nameInput" class="nameInput">Name:</label>
+                            <input type="text" name="nameInput" required placeholder="Please enter a name">
+                        </div>
+                        <span style="font-size: xx-large;" id="counter">0</span>
+                    </div>  
+                    <div class="inputs">
+                        <div>
+                           <input type="radio" id="english" name="langInput" checked value="Hello, ">
+                           <label for="english">English</label>
+                       </div>
+                       <div>
+                           <input type="radio" id="afrikaans" name="langInput" value="Hallo, ">
+                           <label for="afrikaans">Afrikaans</label>
+                       </div>
+                       <div>
+                           <input type="radio" id="xhosa" name="langInput" value="Molo, ">
+                           <label for="xhosa">Xhosa</label>
+                       </div>
+                    </div>
+                     <br>
+                     <div class="greetMe">
+                        <button class="btn" type="submit" name="greetMe">Greet me!</button>
+                    </div>
+                    <br>
+                    <div class="display">
+                        <h3>{{displayMessage}}</h3>
+                    </div>
+                </form>
+
+       <form action="/reset" method="POST">
+            <div class="greetMe" >
+                <button class="btn reset" type="button" id="reset" name="reset">Reset</button>
+            </div>
+        </form>
+        </form>
+        </div>
+    </div>
+</body>
+</html>

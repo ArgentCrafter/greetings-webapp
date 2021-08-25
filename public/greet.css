@@ -1,0 +1,73 @@
+.content {
+    display: block;
+    margin: auto;
+    background-color: lightgreen;
+    border: 5px solid black;
+    border-radius: 10px;
+    width: 70%;
+}
+
+.heading {
+    text-align: center;
+}
+
+.nameInput {
+    margin-left: 10px;
+}
+
+.inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 110px;
+    margin-right: 110px;
+}
+
+.greetMe {
+    text-align: center;
+}
+
+.display {
+    text-align: center;
+    border: 3px solid black;
+    border-radius: 6px;
+    margin: 0 5px 5px 5px;
+}
+
+.inputCounter {
+    text-align: center; 
+    display: flex; 
+    justify-content: space-between;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.btn {
+    background-color: lightgreen;
+    border: 3px solid black;
+    border-radius: 6px;
+    padding: 5px;
+    color: black;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: rgb(96, 187, 96);
+}
+
+.reset {
+    width: 70%;
+    
+    margin-top: 5px;
+}
+
+@media(min-width: 1100px){
+    .inputs {
+        margin-left: 220px;
+        margin-right: 220px;
+    }
+
+    .inputCounter {
+        margin-left: 250px;
+        margin-right: 250px;
+    }
+}

@@ -40,6 +40,8 @@ app.get("/", function (req, res) {
         } else {
             res.render('index')
         }
+    } else {
+        res.render('index')
     }
 });
 

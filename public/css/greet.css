@@ -1,3 +1,7 @@
+body {
+    background-color: beige;
+}
+
 .content {
     display: block;
     margin: auto;
@@ -5,10 +9,51 @@
     border: 5px solid black;
     border-radius: 10px;
     width: 70%;
+    box-shadow: 5px 8px #888888;
 }
 
-.heading {
+.header {
+    overflow: hidden;
+    background-color: lightseagreen;
+    padding: 10px 10px 18px 10px;
+    border: black 4px solid;
+    border-radius: 10px;
+    box-shadow: 5px 8px #888888;
+    position: relative;
+}
+
+.header a {
+    float: left;
+    color: black;
     text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    float: left;
+}
+
+.header a:hover {
+    background-color: rgb(22, 133, 128);
+    color: black;
+}
+
+.header a.active {
+    background-color: rgb(22, 133, 128);
+    color: white;
+}
+
+.header-right {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 20px;
 }
 
 .nameInput {
@@ -71,3 +116,15 @@
         margin-right: 250px;
     }
 }
+
+@media screen and (max-width: 500px) {
+    .header a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    
+    .header-right {
+      float: none;
+    }
+  }

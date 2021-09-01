@@ -4,23 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="greet.css">
+    <link rel="stylesheet" href="/css/greet.css">
     <title>Greetings!</title>
 </head>
 <body>
     <div class="containerAll">
-        <form class="content">
-            <div class="heading">
-                <h1>Greetings!</h1>
+        <div class="header">
+            <h1 class="logo">Greetings</h1>
+            <div class="header-right">
+                <a class="active" href="/greetings">Home</a>
+                <a href="/greeted">Names Greeted</a>
+                <a href="/reset/greetings">Reset</a>
+            </div>
             </div>  
+            <br>
+        <form class="content">
                 <br><br>
-                <form action="/action" method="POST">
                     <div class="inputCounter">
                         <div style="margin: auto;">
                             <label for="nameInput" class="nameInput">Name:</label>
                             <input type="text" name="nameInput" required placeholder="Please enter a name">
                         </div>
-                        <span style="font-size: xx-large;" id="counter">0</span>
+                        <span style="font-size: xx-large;" id="counter">{{count}}</span>
                     </div>  
                     <div class="inputs">
                         <div>
@@ -44,13 +49,6 @@
                     <div class="display">
                         <h3>{{displayMessage}}</h3>
                     </div>
-                </form>
-
-       <form action="/reset" method="POST">
-            <div class="greetMe" >
-                <button class="btn reset" type="button" id="reset" name="reset">Reset</button>
-            </div>
-        </form>
         </form>
         </div>
     </div>

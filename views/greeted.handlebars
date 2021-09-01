@@ -17,9 +17,9 @@
           <a href="/reset/greeted">Reset</a>
         </div>
       </div>
-      <ul>
+      <ul class="greeted">
       {{#each names}}
-          <li><a href="/greetedname/{{this.name}}">{{this.name}}</a></li>
+          <li><a href="/greetedname/{{this.name}}" class="greeted">{{this.name}}</a></li>
       {{/each}}
       </ul>
     </div>

@@ -101,8 +101,42 @@ body {
 
 .reset {
     width: 70%;
-    
     margin-top: 5px;
+}
+
+.greeted {
+    background-color: lightgreen;
+    border: 3px solid black;
+    border-radius: 6px;
+    padding: 5px;
+    margin: 10px;
+    list-style: none;
+    box-shadow: 5px 8px  #888888;
+}
+
+.greeted li {
+    text-align: center;
+    margin: 20px 0px 15px 0px;
+    box-shadow: none;
+}
+
+.greeted a {
+    color: black;
+    text-decoration: none;
+    box-shadow: none;
+}
+
+.greeted a:hover {
+    background-color: rgb(97, 172, 97);
+}
+
+.greetedname {
+    background-color: lightgreen;
+    border: 3px solid black;
+    border-radius: 6px;
+    margin: 15px;
+    padding: 10px;
+    box-shadow: 5px 8px  #888888;
 }
 
 @media(min-width: 1100px){

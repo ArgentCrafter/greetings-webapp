@@ -145,7 +145,7 @@ app.get('/greeted', async function (req, res) {
 
 app.get('/greetedname/:name', async function (req, res) {
     let names = await (await pool.query('SELECT * FROM names WHERE name = $1', [req.params.name])).rows[0];
-    res.render('greetedname', { name: names.name, counter: names.counter, english: names.english, afrikaans: names.afrikaans, xhosa: names.xhosa});
+    res.render('greetedname', { name: names.name, counter: names.counter, english: names.english, afrikaans: names.afrikaans, xhosa: names.xhosa });
 })
 
 app.get("/reset/:route", async function (req, res) {

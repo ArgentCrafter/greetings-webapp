@@ -37,7 +37,7 @@ app.get('/greetings', async function (req, res) {
     if (req.query.nameInput) {
         inputName = req.query.nameInput.toLowerCase();
     }
-    let language = factory.checkLang(req.query.langInput);
+    let language = factory().checkLang(req.query.langInput);
 
     if (inputName) {
         let arrNames = await (await pool.query('SELECT * FROM names')).rows;

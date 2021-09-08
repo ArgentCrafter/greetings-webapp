@@ -12,7 +12,6 @@ const pool = new Pool({
     connectionString,
     ssl: {
         rejectUnauthorized: false,
-        use: true
     }
 });
 

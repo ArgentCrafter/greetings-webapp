@@ -1,0 +1,1 @@
+[![Build Status](https://app.travis-ci.com/ArgentCrafter/greetings-webapp.svg?branch=gh-pages)](https://app.travis-ci.com/ArgentCrafter/greetings-webapp)

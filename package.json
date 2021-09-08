@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "directories": {
-    "test": "test"
+    "test": "/home/jaden/projects/greetings-webapp/test/greetings-webapp.test.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node index.js"
   },
   "keywords": [],
@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "body-parser": "^1.19.0",
     "express-handlebars": "^5.3.3",
+    "mocha": "^9.1.1",
     "express-session": "^1.17.2",
     "pg": "^8.7.1"
   },
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "express": "^4.17.1",
+    "mocha": "^9.1.1",
     "pg": "^8.7.1"
   },
   "repository": {

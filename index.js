@@ -10,6 +10,10 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://jaden:codex12
 
 const pool = new Pool({
     connectionString,
+    ssl: {
+        rejectUnauthorized: false,
+        use: true
+    }
 });
 
 pool.connect();

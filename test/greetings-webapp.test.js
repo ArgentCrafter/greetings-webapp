@@ -11,17 +11,21 @@ describe('Tests:', () => {
 
     describe('Database Tests:', () => {
 
-        beforeEach(async function () {
-            await pool.query("DROP TABLE testing");
-            await pool.query("CREATE TABLE testing (id serial primary key not null, value integer not null)")
-        })
+        // beforeEach(async function () {
+            // await pool.query("DROP TABLE testing");
+            // await pool.query("CREATE TABLE testing (id serial primary key not null, value integer not null)")
+        // })
 
         it('Should pass the insert db test', async function () {
+            await pool.query("DROP TABLE testing");
+            await pool.query("CREATE TABLE testing (id serial primary key not null, value integer not null)")
             await pool.query('INSERT INTO testing (value) values (1)');
             assert.equal(await (await pool.query('SELECT * FROM testing')).rows[0].value, 1);
         })
 
         it('Should pass the update db test', async function () {
+            await pool.query("DROP TABLE testing");
+            await pool.query("CREATE TABLE testing (id serial primary key not null, value integer not null)")
             await pool.query('INSERT INTO testing (value) values (1)');
             await pool.query('UPDATE testing SET value = 2');
             assert.equal(await (await pool.query('SELECT * FROM testing')).rows[0].value, 2);

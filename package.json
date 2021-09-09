@@ -24,7 +24,9 @@
     "node": "12.22.5"
   },
   "devDependencies": {
+    "connect-flash": "^0.1.1",
     "express": "^4.17.1",
+    "express-flash": "0.0.2",
     "mocha": "^9.1.1",
     "pg": "^8.7.1"
   },

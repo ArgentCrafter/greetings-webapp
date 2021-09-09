@@ -3,10 +3,11 @@ const exphba = require('express-handlebars');
 const bodyParser = require('body-parser');
 const factory = require('./greetingsFactory');
 const session = require('express-session');
+const flash = require('express-flash');
 const { Pool } = require('pg');
 let app = express();
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://jaden:codex123@localhost:5432/names_greeted';
+const connectionString = process.env.DATABASE_URL || 'postgres://rntohclcqqooug:6e4d677f68a42e8f11d37d49692c964ce319903d08edd57a1e6fbbb394139f1b@ec2-18-215-44-132.compute-1.amazonaws.com:5432/dbfr12j9n97iqk';
 
 const pool = new Pool({
     connectionString,
@@ -22,6 +23,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
+
+app.use(flash());
 
 app.engine('handlebars', exphba({ defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts' }));
 app.set('view engine', 'handlebars');
@@ -41,91 +44,108 @@ app.get('/greetings', async function (req, res) {
         inputName = req.query.nameInput.toLowerCase();
     }
     let language = factory().checkLang(req.query.langInput);
+    console.log(language);
 
-    if (inputName) {
-        let arrNames = await (await pool.query('SELECT * FROM names')).rows;
+    if (language) {
+        if (inputName) {
+            let arrNames = await (await pool.query('SELECT * FROM names')).rows;
 
-        if (arrNames.length > 0) {
-            for (var i = 0; i < arrNames.length; i++) {
-                if (arrNames[i].name === inputName) {
-                    let currGreetCounter = arrNames[i].counter;
-                    currGreetCounter += 1;
-                    let currLangCounter;
+            if (arrNames.length > 0) {
+                for (var i = 0; i < arrNames.length; i++) {
+                    if (arrNames[i].name === inputName) {
+                        let currGreetCounter = arrNames[i].counter;
+                        currGreetCounter += 1;
+                        let currLangCounter;
 
-                    switch (language) {
-                        case 'English':
-                            currLangCounter = arrNames[i].english;
-                            currLangCounter += 1;
-                            await pool.query('UPDATE names SET counter = $1, english = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
-                            break;
+                        switch (language) {
+                            case 'English':
+                                currLangCounter = arrNames[i].english;
+                                currLangCounter += 1;
+                                await pool.query('UPDATE names SET counter = $1, english = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
+                                break;
 
-                        case 'Afrikaans':
-                            currLangCounter = arrNames[i].afrikaans;
-                            currLangCounter += 1;
-                            await pool.query('UPDATE names SET counter = $1, afrikaans = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]); 4
-                            break;
+                            case 'Afrikaans':
+                                currLangCounter = arrNames[i].afrikaans;
+                                currLangCounter += 1;
+                                await pool.query('UPDATE names SET counter = $1, afrikaans = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]); 4
+                                break;
 
-                        case 'Xhosa':
-                            currLangCounter = arrNames[i].xhosa;
-                            currLangCounter += 1;
-                            await pool.query('UPDATE names SET counter = $1, xhosa = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
-                            break;
+                            case 'Xhosa':
+                                currLangCounter = arrNames[i].xhosa;
+                                currLangCounter += 1;
+                                await pool.query('UPDATE names SET counter = $1, xhosa = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
+                                break;
 
-                        default:
-                            break;
+                            default:
+                                break;
+                        }
+                        flag = true;
                     }
-                    flag = true;
+                }
+            } else {
+                switch (language) {
+                    case 'English':
+                        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 1, 0, 0)', [inputName])
+                        break;
+
+                    case 'Afrikaans':
+                        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 1, 0)', [inputName])
+                        break;
+
+                    case 'Xhosa':
+                        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 0, 1)', [inputName])
+                        break;
+
+                    default:
+                        break;
+                }
+                flag = true;
+            }
+
+            if (!flag) {
+                switch (language) {
+                    case 'English':
+                        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 1, 0, 0)', [inputName])
+                        break;
+
+                    case 'Afrikaans':
+                        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 1, 0)', [inputName])
+                        break;
+
+                    case 'Xhosa':
+                        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 0, 1)', [inputName])
+                        break;
+
+                    default:
+                        break;
                 }
             }
+            let nameCount = await pool.query('SELECT COUNT (DISTINCT name) FROM names')
+            res.render('index', { displayMessage: factory().displayString(req.query.nameInput, req.query.langInput), count: nameCount.rows[0].count, displayClass: "black" });
         } else {
-            switch (language) {
-                case 'English':
-                    await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 1, 0, 0)', [inputName])
-                    break;
-
-                case 'Afrikaans':
-                    await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 1, 0)', [inputName])
-                    break;
-
-                case 'Xhosa':
-                    await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 0, 1)', [inputName])
-                    break;
-
-                default:
-                    break;
-            }
-            flag = true;
+            let nameCount = await pool.query('SELECT COUNT (DISTINCT name) FROM names')
+            res.render('index', { count: nameCount.rows[0].count });
         }
-
-        if (!flag) {
-            switch (language) {
-                case 'English':
-                    await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 1, 0, 0)', [inputName])
-                    break;
-
-                case 'Afrikaans':
-                    await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 1, 0)', [inputName])
-                    break;
-
-                case 'Xhosa':
-                    await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 0, 1)', [inputName])
-                    break;
-
-                default:
-                    break;
-            }
-        }
-        let nameCount = await pool.query('SELECT COUNT (DISTINCT name) FROM names')
-        res.render('index', { displayMessage: factory().displayString(req.query.nameInput, req.query.langInput), count: nameCount.rows[0].count });
     } else {
-        let nameCount = await pool.query('SELECT COUNT (DISTINCT name) FROM names')
-        res.render('index', { count: nameCount.rows[0].count });
+        console.log(inputName);
+        if (inputName) {
+            let nameCount = await pool.query('SELECT COUNT (DISTINCT name) FROM names')
+            res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please select a language", displayClass: "red" });
+        } else {
+            let nameCount = await pool.query('SELECT COUNT (DISTINCT name) FROM names')
+            res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please enter a name and select a language"});
+        }
     }
 })
 
 app.get('/greeted', async function (req, res) {
     let names = await (await pool.query('SELECT * FROM names')).rows;
-    res.render('greeted', { names: names });
+    let namesStyled = [];
+    for (var i = 0; i < names.length; i++) {
+        let nameTemp = names[i].name[0].toUpperCase() + names[i].name.slice(1).toLowerCase();
+        namesStyled.push(nameTemp);
+    }
+    res.render('greeted', { names: namesStyled });
 })
 
 app.get('/greetedname/:name', async function (req, res) {

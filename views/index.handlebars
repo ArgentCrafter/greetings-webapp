@@ -25,11 +25,11 @@
                             <label for="nameInput" class="nameInput">Name:</label>
                             <input type="text" name="nameInput" required placeholder="Please enter a name">
                         </div>
-                        <span style="font-size: xx-large;" id="counter">{{count}}</span>
+                        <span style="font-size: xx-large;" id="counter">Counter: {{count}}</span>
                     </div>  
                     <div class="inputs">
                         <div>
-                           <input type="radio" id="english" name="langInput" checked value="Hello, ">
+                           <input type="radio" id="english" name="langInput" value="Hello, ">
                            <label for="english">English</label>
                        </div>
                        <div>
@@ -47,7 +47,7 @@
                     </div>
                     <br>
                     <div class="display">
-                        <h3>{{displayMessage}}</h3>
+                        <h3 class="{{displayClass}}">{{displayMessage}}</h3>
                     </div>
         </form>
         </div>

@@ -2,6 +2,14 @@ body {
     background-color: beige;
 }
 
+.red {
+    color: orangered;
+}
+
+.black {
+    color: black;
+}
+
 .content {
     display: block;
     margin: auto;

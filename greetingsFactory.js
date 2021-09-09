@@ -14,9 +14,6 @@ module.exports = function greetFunctions() {
 
       case "Molo, ":
         return 'Xhosa';
-
-      default:
-        break;
     }
   }
 

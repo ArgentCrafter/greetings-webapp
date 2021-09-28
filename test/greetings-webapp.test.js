@@ -65,9 +65,5 @@ describe('Tests:', () => {
                 assert.equal(factory().checkLang("Molo, "), "Xhosa")
             })
         })
-
-        describe('', () => {
-
-        })
     })
 })

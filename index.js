@@ -49,7 +49,7 @@ app.get('/greetings', async function (req, res) {
 
     if (language) {
         if (inputName) {
-            let arrNames = await (await pool.query('SELECT * FROM names')).rows;
+            let arrNames = factory().selectAll();
 
             if (arrNames.length > 0) {
                 for (var i = 0; i < arrNames.length; i++) {
@@ -81,7 +81,6 @@ app.get('/greetings', async function (req, res) {
         
     } else {
         let nameCount = await factory().distinctQuery();
-        console.log(nameCount);
         if (inputName) {
             res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please select a language", displayClass: "red" });
         } else {
@@ -91,12 +90,12 @@ app.get('/greetings', async function (req, res) {
 })
 
 app.get('/greeted', async function (req, res) {
-    let names = await (await pool.query('SELECT * FROM names')).rows;
+    let names = factory().selectAll();
     res.render('greeted', { names: factory().styleNames(names) });
 })
 
 app.get('/greetedname/:name', async function (req, res) {
-    let names = await (await pool.query('SELECT * FROM names WHERE name = $1', [req.params.name.toLowerCase()])).rows[0];
+    let names = factory().selectName(req.params.name.toLowerCase());
     res.render('greetedname', { name: names.name, counter: names.counter, english: names.english, afrikaans: names.afrikaans, xhosa: names.xhosa });
 })
 

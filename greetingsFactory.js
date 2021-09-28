@@ -68,7 +68,6 @@ module.exports = function greetFunctions() {
   }
 
   async function distinctQuery() {
-    console.log(await pool.query('SELECT COUNT (DISTINCT name) FROM names'));
     return await pool.query('SELECT COUNT (DISTINCT name) FROM names');
   }
 
@@ -87,6 +86,14 @@ module.exports = function greetFunctions() {
     return namesStyled;
   }
 
+  async function selectAll() {
+    return await (await pool.query('SELECT * FROM names')).rows;
+  }
+
+  async function selectName(name) {
+    return await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0];
+  }
+
   return {
     displayString,
     checkLang,
@@ -94,6 +101,8 @@ module.exports = function greetFunctions() {
     insertQuery,
     distinctQuery,
     reset,
-    styleNames
+    styleNames,
+    selectAll,
+    selectName
   };
 }

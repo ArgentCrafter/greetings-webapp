@@ -3,23 +3,29 @@
   "version": "1.0.0",
   "main": "index.js",
   "directories": {
-    "test": "/home/jaden/projects/greetings-webapp/test/greetings-webapp.test.js"
+    "test": "test"
   },
   "scripts": {
     "test": "mocha",
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jaden Hope",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
     "body-parser": "^1.19.0",
     "express-handlebars": "^5.3.3",
     "mocha": "^9.1.1",
     "express-flash": "0.0.2",
     "connect-flash": "^0.1.1",
     "express-session": "^1.17.2",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "mocha": "^9.1.1",
     "pg": "^8.7.1"
   },
   "engines": {
@@ -33,5 +39,5 @@
     "url": "https://github.com/ArgentCrafter/greetings-webapp/issues"
   },
   "homepage": "https://github.com/ArgentCrafter/greetings-webapp#readme",
-  "description": ""
+  "description": "[![Build Status](https://app.travis-ci.com/ArgentCrafter/greetings-webapp.svg?branch=gh-pages)](https://app.travis-ci.com/ArgentCrafter/greetings-webapp)"
 }

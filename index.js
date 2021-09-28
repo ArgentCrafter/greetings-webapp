@@ -8,6 +8,8 @@ const { Pool } = require('pg');
 let app = express();
 
 const connectionString = process.env.DATABASE_URL || 'postgres://rntohclcqqooug:6e4d677f68a42e8f11d37d49692c964ce319903d08edd57a1e6fbbb394139f1b@ec2-18-215-44-132.compute-1.amazonaws.com:5432/dbfr12j9n97iqk';
+//'postgresql://jaden:codex123@localhost:5432/names_greeted'
+//'postgres://rntohclcqqooug:6e4d677f68a42e8f11d37d49692c964ce319903d08edd57a1e6fbbb394139f1b@ec2-18-215-44-132.compute-1.amazonaws.com:5432/dbfr12j9n97iqk'
 
 const pool = new Pool({
     connectionString,
@@ -149,7 +151,8 @@ app.get('/greeted', async function (req, res) {
 })
 
 app.get('/greetedname/:name', async function (req, res) {
-    let names = await (await pool.query('SELECT * FROM names WHERE name = $1', [req.params.name])).rows[0];
+    console.log(req.params.name);
+    let names = await (await pool.query('SELECT * FROM names WHERE name = $1', [req.params.name.toLowerCase()])).rows[0];
     res.render('greetedname', { name: names.name, counter: names.counter, english: names.english, afrikaans: names.afrikaans, xhosa: names.xhosa });
 })
 

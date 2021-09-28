@@ -36,34 +36,29 @@ describe('Tests:', () => {
 
     describe('Factory Function Tests:', () => {
 
-        describe('Display String:', () => {
-
-            it('English', () => {
-                assert.equal(factory().displayString("jaden", "Hello, "), "Hello, Jaden!")
-            })
-
-            it('Afrikaans', () => {
-                assert.equal(factory().displayString("stefan", "Hallo, "), "Hallo, Stefan!")
-            })
-
-            it('Xhosa', () => {
-                assert.equal(factory().displayString("geoff", "Molo, "), "Molo, Geoff!")
-            })
+        it('Display String: English', () => {
+            assert.equal(factory().displayString("jaden", "Hello, "), "Hello, Jaden!")
         })
 
-        describe('Check Language:', () => {
+        it('Display String: Afrikaans', () => {
+            assert.equal(factory().displayString("stefan", "Hallo, "), "Hallo, Stefan!")
+        })
 
-            it('English', () => {
-                assert.equal(factory().checkLang("Hello, "), "English")
-            })
+        it('Display String: Xhosa', () => {
+            assert.equal(factory().displayString("geoff", "Molo, "), "Molo, Geoff!")
+        })
 
-            it('Afrikaans', () => {
-                assert.equal(factory().checkLang("Hallo, "), "Afrikaans")
-            })
 
-            it('Xhosa', () => {
-                assert.equal(factory().checkLang("Molo, "), "Xhosa")
-            })
+        it('Check Language: English', () => {
+            assert.equal(factory().checkLang("Hello, "), "English")
+        })
+
+        it('Check Language: Afrikaans', () => {
+            assert.equal(factory().checkLang("Hallo, "), "Afrikaans")
+        })
+
+        it('Check Language: Xhosa', () => {
+            assert.equal(factory().checkLang("Molo, "), "Xhosa")
         })
     })
 })

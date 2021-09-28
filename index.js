@@ -1,7 +1,7 @@
 const express = require('express');
 const exphba = require('express-handlebars');
 const bodyParser = require('body-parser');
-const factory = require('./greetingsFactory');
+const Factory = require('./greetingsFactory');
 const session = require('express-session');
 const flash = require('express-flash');
 const { Pool } = require('pg');
@@ -19,6 +19,8 @@ const pool = new Pool({
 });
 
 pool.connect();
+
+let factory = Factory(pool);
 
 app.use(session({
     secret: 'keyboard cat5 run all 0v3r',
@@ -45,11 +47,11 @@ app.get('/greetings', async function (req, res) {
     if (req.query.nameInput) {
         inputName = req.query.nameInput.toLowerCase();
     }
-    let language = factory().checkLang(req.query.langInput);
+    let language = factory.checkLang(req.query.langInput);
 
     if (language) {
         if (inputName) {
-            let arrNames = factory().selectAll();
+            let arrNames = await factory.selectAll();
 
             if (arrNames.length > 0) {
                 for (var i = 0; i < arrNames.length; i++) {
@@ -58,29 +60,29 @@ app.get('/greetings', async function (req, res) {
                         let currGreetCounter = arrNames[i].counter + 1;
                         let currLangCounter;
                         currLangCounter = currName[language.toLowerCase()] + 1;
-                        await factory().updateQuery(language, currGreetCounter, currLangCounter, inputName);
+                        await factory.updateQuery(language, currGreetCounter, currLangCounter, inputName);
 
                         flag = true;
                     }
                 }
             } else {
-                await factory().insertQuery(language, inputName);
+                await factory.insertQuery(language, inputName);
                 flag = true;
             }
 
             if (!flag) {
-                await factory().insertQuery(language, inputName);
+                await factory.insertQuery(language, inputName);
             }
 
-            let nameCount = await factory().distinctQuery();
-            res.render('index', { displayMessage: factory().displayString(req.query.nameInput, req.query.langInput), count: nameCount.rows[0].count, displayClass: "black" });
+            let nameCount = await factory.distinctQuery();
+            res.render('index', { displayMessage: factory.displayString(req.query.nameInput, req.query.langInput), count: nameCount.rows[0].count, displayClass: "black" });
         } else {
-            let nameCount = await factory().distinctQuery();
+            let nameCount = await factory.distinctQuery();
             res.render('index', { count: nameCount.rows[0].count });
         }
         
     } else {
-        let nameCount = await factory().distinctQuery();
+        let nameCount = await factory.distinctQuery();
         if (inputName) {
             res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please select a language", displayClass: "red" });
         } else {
@@ -90,17 +92,18 @@ app.get('/greetings', async function (req, res) {
 })
 
 app.get('/greeted', async function (req, res) {
-    let names = factory().selectAll();
-    res.render('greeted', { names: factory().styleNames(names) });
+    let names = await factory.selectAll();
+    console.log(names);
+    res.render('greeted', { names: await factory.styleNames(names) });
 })
 
 app.get('/greetedname/:name', async function (req, res) {
-    let names = factory().selectName(req.params.name.toLowerCase());
+    let names = await factory.selectName(req.params.name.toLowerCase());
     res.render('greetedname', { name: names.name, counter: names.counter, english: names.english, afrikaans: names.afrikaans, xhosa: names.xhosa });
 })
 
-app.get("/reset/:route", async function (req, res) {
-    factory().reset();
+app.get("/reset/:route", function (req, res) {
+    factory.reset();
 
     res.redirect('/' + req.params.route);
 });

@@ -1,17 +1,4 @@
-module.exports = function greetFunctions() {
-
-  const { Pool } = require('pg');
-  const connectionString = 'postgres://rntohclcqqooug:6e4d677f68a42e8f11d37d49692c964ce319903d08edd57a1e6fbbb394139f1b@ec2-18-215-44-132.compute-1.amazonaws.com:5432/dbfr12j9n97iqk';
-
-  const pool = new Pool({
-    connectionString,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  });
-
-  pool.connect()
-
+module.exports = function greetFunctions(pool) {
   function displayString(input, input2) {
     return `${input2}${input[0].toUpperCase() + input.slice(1).toLowerCase()}!`;
   }
@@ -71,6 +58,14 @@ module.exports = function greetFunctions() {
     return await pool.query('SELECT COUNT (DISTINCT name) FROM names');
   }
 
+  async function selectAll() {
+    return await (await pool.query('SELECT * FROM names')).rows;
+  }
+
+  async function selectName(name) {
+    return await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0];
+  }
+
   async function reset() {
     await pool.query('DROP TABLE names');
     await pool.query('CREATE TABLE names (id serial primary key, name text not null, counter int not null, english int not null, afrikaans int not null, xhosa int not null)')
@@ -86,13 +81,6 @@ module.exports = function greetFunctions() {
     return namesStyled;
   }
 
-  async function selectAll() {
-    return await (await pool.query('SELECT * FROM names')).rows;
-  }
-
-  async function selectName(name) {
-    return await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0];
-  }
 
   return {
     displayString,

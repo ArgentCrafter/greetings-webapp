@@ -29,35 +29,45 @@ describe('Tests:', () => {
             assert.equal(await (await pool.query('SELECT * FROM testing')).rows[0].value, 2);
         })
 
-        afterEach(async function() {
+        afterEach(async function () {
             await pool.query("DROP TABLE testing");
         })
     })
 
     describe('Factory Function Tests:', () => {
-        
-        it('Display string function: English', () => {
-            assert.equal(factory().displayString( "jaden", "Hello, "), "Hello, Jaden!")
+
+        describe('Display String:', () => {
+
+            it('English', () => {
+                assert.equal(factory().displayString("jaden", "Hello, "), "Hello, Jaden!")
+            })
+
+            it('Afrikaans', () => {
+                assert.equal(factory().displayString("stefan", "Hallo, "), "Hallo, Stefan!")
+            })
+
+            it('Xhosa', () => {
+                assert.equal(factory().displayString("geoff", "Molo, "), "Molo, Geoff!")
+            })
         })
 
-        it('Display string function: Afrikaans', () => {
-            assert.equal(factory().displayString( "stefan", "Hallo, "), "Hallo, Stefan!")
+        describe('Check Language:', () => {
+
+            it('English', () => {
+                assert.equal(factory().checkLang("Hello, "), "English")
+            })
+
+            it('Afrikaans', () => {
+                assert.equal(factory().checkLang("Hallo, "), "Afrikaans")
+            })
+
+            it('Xhosa', () => {
+                assert.equal(factory().checkLang("Molo, "), "Xhosa")
+            })
         })
 
-        it('Display string function: Xhosa', () => {
-            assert.equal(factory().displayString( "geoff", "Molo, "), "Molo, Geoff!")
-        })
+        describe('', () => {
 
-        it('Check language function: English', () => {
-            assert.equal(factory().checkLang("Hello, "), "English")
-        })
-
-        it('Check language function: Afrikaans', () => {
-            assert.equal(factory().checkLang("Hallo, "), "Afrikaans")
-        })
-
-        it('Check language function: Xhosa', () => {
-            assert.equal(factory().checkLang("Molo, "), "Xhosa")
         })
     })
 })

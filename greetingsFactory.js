@@ -16,8 +16,8 @@ module.exports = function greetFunctions(pool) {
     }
   }
 
-  async function updateQuery(language, currGreetCounter, currLangCounter, inputName) {
-    await pool.query('UPDATE names SET counter = $1, ' + language.toLowerCase() + ' = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
+  async function updateQuery(language, timesNameGreeted, timesLangGreeted, inputName) {
+    await pool.query('UPDATE names SET counter = $1, ' + language.toLowerCase() + ' = $2 WHERE name = $3', [timesNameGreeted, timesLangGreeted, inputName]);
   }
 
   async function insertQuery(language, inputName) {
@@ -34,10 +34,6 @@ module.exports = function greetFunctions(pool) {
 
   async function selectName(name) {
     return await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0];
-  }
-
-  async function reset() {
-    await pool.query('TRUNCATE TABLE names');
   }
 
   function styleNames(names) {
@@ -65,7 +61,6 @@ module.exports = function greetFunctions(pool) {
     updateQuery,
     insertQuery,
     getDistinctNames,
-    reset,
     styleNames,
     selectAll,
     createRender,

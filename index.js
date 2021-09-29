@@ -87,11 +87,13 @@ app.get('/greetings', async function (req, res) {
 
     } else {
         let nameCount = await factory.distinctQuery();
+        let display;
         if (inputName) {
-            res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please select a language", displayClass: "red" });
+            display = { count: nameCount.rows[0].count, displayMessage: "Please select a language", displayClass: "red" };
         } else {
-            res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please enter a name and select a language" });
+            display = { count: nameCount.rows[0].count, displayMessage: "Please select a language and enter a name", displayClass: "black" };
         }
+        res.render('index', display);
     }
 })
 

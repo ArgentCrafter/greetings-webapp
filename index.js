@@ -75,25 +75,18 @@ app.get('/greetings', async function (req, res) {
                     await factory.insertQuery(language, inputName);
                 }
 
-                let nameCount = await factory.distinctQuery();
-                res.render('index', { displayMessage: factory.displayString(req.query.nameInput, req.query.langInput), count: nameCount.rows[0].count, displayClass: "black" });
+                let nameCount = await factory.getDistinctNames();
+                res.render('index', { displayMessage: factory.displayString(req.query.nameInput, req.query.langInput), count: nameCount, displayClass: "black" });
             } else {
-                let nameCount = await factory.distinctQuery();
-                res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please enter a valid name", displayClass: "red" });
+                let nameCount = await factory.getDistinctNames();
+                res.render('index', { count: nameCount, displayMessage: "Please enter a valid name", displayClass: "red" });
             }
         } else {
-            res.render('index', { count: await factory.distinctQuery().rows[0].count });
+            res.render('index', { count: await factory.getDistinctNames() });
         }
 
     } else {
-        let nameCount = await factory.distinctQuery();
-        let display;
-        if (inputName) {
-            display = { count: nameCount.rows[0].count, displayMessage: "Please select a language", displayClass: "red" };
-        } else {
-            display = { count: nameCount.rows[0].count, displayMessage: "Please select a language and enter a name", displayClass: "black" };
-        }
-        res.render('index', display);
+        res.render('index', await factory.createRender(inputName));
     }
 })
 

@@ -21,26 +21,11 @@ module.exports = function greetFunctions(pool) {
   }
 
   async function insertQuery(language, inputName) {
-    switch (language) {
-      case 'English':
-        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 1, 0, 0)', [inputName])
-        break;
-
-      case 'Afrikaans':
-        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 1, 0)', [inputName])
-        break;
-
-      case 'Xhosa':
-        await pool.query('INSERT INTO names (name, counter, english, afrikaans, xhosa) VALUES ( $1, 1, 0, 0, 1)', [inputName])
-        break;
-
-      default:
-        break;
-    }
+    await pool.query('INSERT INTO names (name, counter, ' + language.toLowerCase() + ') VALUES ( $1, 1, 1)', [inputName])
   }
 
-  async function distinctQuery() {
-    return await pool.query('SELECT COUNT (DISTINCT name) FROM names');
+  async function getDistinctNames() {
+    return await (await pool.query('SELECT COUNT (DISTINCT name) FROM names')).rows[0].count;
   }
 
   async function selectAll() {
@@ -52,8 +37,7 @@ module.exports = function greetFunctions(pool) {
   }
 
   async function reset() {
-    await pool.query('DROP TABLE names');
-    await pool.query('CREATE TABLE names (id serial primary key, name text not null, counter int not null, english int not null, afrikaans int not null, xhosa int not null)')
+    await pool.query('TRUNCATE TABLE names');
   }
 
   function styleNames(names) {
@@ -66,16 +50,25 @@ module.exports = function greetFunctions(pool) {
     return namesStyled;
   }
 
+  async function createRender(inputName) {
+    let nameCount = await getDistinctNames();
+    if (inputName) {
+      return { count: nameCount, displayMessage: "Please select a language", displayClass: "red" };
+  } else {
+      return { count: nameCount, displayMessage: "Please select a language and enter a name", displayClass: "black" };
+  }
+  }
 
   return {
     displayString,
     checkLang,
     updateQuery,
     insertQuery,
-    distinctQuery,
+    getDistinctNames,
     reset,
     styleNames,
     selectAll,
+    createRender,
     selectName
   };
 }

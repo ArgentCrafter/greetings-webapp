@@ -1,0 +1,1 @@
+CREATE TABLE names (id serial primary key, name text not null, counter int not null, english int default 0, afrikaans int default 0, xhosa int default 0)

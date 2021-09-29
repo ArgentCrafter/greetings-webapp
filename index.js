@@ -51,36 +51,40 @@ app.get('/greetings', async function (req, res) {
 
     if (language) {
         if (inputName) {
-            let arrNames = await factory.selectAll();
+            if (/^[a-zA-Z]*$/g.test(inputName)) {
+                let arrNames = await factory.selectAll();
 
-            if (arrNames.length > 0) {
-                for (var i = 0; i < arrNames.length; i++) {
-                    let currName = arrNames[i];
-                    if (currName.name === inputName) {
-                        let currGreetCounter = arrNames[i].counter + 1;
-                        let currLangCounter;
-                        currLangCounter = currName[language.toLowerCase()] + 1;
-                        await factory.updateQuery(language, currGreetCounter, currLangCounter, inputName);
+                if (arrNames.length > 0) {
+                    for (var i = 0; i < arrNames.length; i++) {
+                        let currName = arrNames[i];
+                        if (currName.name === inputName) {
+                            let currGreetCounter = arrNames[i].counter + 1;
+                            let currLangCounter;
+                            currLangCounter = currName[language.toLowerCase()] + 1;
+                            await factory.updateQuery(language, currGreetCounter, currLangCounter, inputName);
 
-                        flag = true;
+                            flag = true;
+                        }
                     }
+                } else {
+                    await factory.insertQuery(language, inputName);
+                    flag = true;
                 }
+
+                if (!flag) {
+                    await factory.insertQuery(language, inputName);
+                }
+
+                let nameCount = await factory.distinctQuery();
+                res.render('index', { displayMessage: factory.displayString(req.query.nameInput, req.query.langInput), count: nameCount.rows[0].count, displayClass: "black" });
             } else {
-                await factory.insertQuery(language, inputName);
-                flag = true;
+                let nameCount = await factory.distinctQuery();
+                res.render('index', { count: nameCount.rows[0].count, displayMessage: "Please enter a valid name", displayClass: "red" });
             }
-
-            if (!flag) {
-                await factory.insertQuery(language, inputName);
-            }
-
-            let nameCount = await factory.distinctQuery();
-            res.render('index', { displayMessage: factory.displayString(req.query.nameInput, req.query.langInput), count: nameCount.rows[0].count, displayClass: "black" });
         } else {
-            let nameCount = await factory.distinctQuery();
-            res.render('index', { count: nameCount.rows[0].count });
+            res.render('index', { count: await factory.distinctQuery().rows[0].count });
         }
-        
+
     } else {
         let nameCount = await factory.distinctQuery();
         if (inputName) {

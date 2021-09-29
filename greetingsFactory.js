@@ -17,22 +17,22 @@ module.exports = function greetFunctions(pool) {
   }
 
   async function updateQuery(language, currGreetCounter, currLangCounter, inputName) {
-    switch (language) {
-      case 'English':
-        await pool.query('UPDATE names SET counter = $1, english = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
-        break;
+    await pool.query('UPDATE names SET counter = $1, ' + language.toLowerCase() + ' = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
+    // switch (language) {
+    //   case 'English':
+    //     break;
 
-      case 'Afrikaans':
-        await pool.query('UPDATE names SET counter = $1, afrikaans = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
-        break;
+    //   case 'Afrikaans':
+    //     await pool.query('UPDATE names SET counter = $1, afrikaans = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
+    //     break;
 
-      case 'Xhosa':
-        await pool.query('UPDATE names SET counter = $1, xhosa = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
-        break;
+    //   case 'Xhosa':
+    //     await pool.query('UPDATE names SET counter = $1, xhosa = $2 WHERE name = $3', [currGreetCounter, currLangCounter, inputName]);
+    //     break;
 
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
   }
 
   async function insertQuery(language, inputName) {

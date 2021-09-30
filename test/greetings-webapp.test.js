@@ -7,15 +7,15 @@ describe('Tests:', () => {
 
         describe('Display String:', () => {
 
-            it('function: English', () => {
+            it('Display message in English', () => {
                 assert.equal(factory().displayString("jaden", "Hello, "), "Hello, Jaden!")
             })
 
-            it('function: Afrikaans', () => {
+            it('Display message in Afrikaans', () => {
                 assert.equal(factory().displayString("stefan", "Hallo, "), "Hallo, Stefan!")
             })
 
-            it('function: Xhosa', () => {
+            it('Display message in Xhosa', () => {
                 assert.equal(factory().displayString("geoff", "Molo, "), "Molo, Geoff!")
             })
 
@@ -23,15 +23,15 @@ describe('Tests:', () => {
 
         describe('Check Language:', () => {
 
-            it('function: English', () => {
+            it('Detect language: English', () => {
                 assert.equal(factory().checkLang("Hello, "), "English")
             })
 
-            it('function: Afrikaans', () => {
+            it('Detect language: Afrikaans', () => {
                 assert.equal(factory().checkLang("Hallo, "), "Afrikaans")
             })
 
-            it('function: Xhosa', () => {
+            it('Detect language: Xhosa', () => {
                 assert.equal(factory().checkLang("Molo, "), "Xhosa")
             })
 
@@ -39,7 +39,7 @@ describe('Tests:', () => {
 
         describe('Style Names:', () => {
 
-            it('function: Should capitalize first letter', () => {
+            it('Should capitalize first letter and lower case all rest', () => {
                 assert.deepEqual(factory().styleNames([{id: 1,name: 'jADeN'}, {id: 2,name: 'jEfFREy'}, {id: 3,name: 'StEVeN'}]), ['Jaden', 'Jeffrey', 'Steven'])
             })
         })

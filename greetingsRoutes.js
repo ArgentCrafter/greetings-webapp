@@ -13,7 +13,7 @@ module.exports = function greetRoutes(pool) {
                     let currName = await factory.selectName(inputName);
 
                     if (currName) {
-                        await factory.updateQuery(language, currName.counter + 1, currName[language.toLowerCase()] + 1, inputName);
+                        await factory.updateQuery(language, currName.counter, currName[language.toLowerCase()], inputName);
                     } else {
                         await factory.insertQuery(language, inputName);
                     }

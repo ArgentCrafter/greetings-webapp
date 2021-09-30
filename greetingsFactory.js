@@ -16,8 +16,9 @@ module.exports = function greetFunctions(pool) {
     }
   }
 
-  async function updateQuery(language, timesNameGreeted, timesLangGreeted, inputName) {
-    await pool.query('UPDATE names SET counter = $1, ' + language.toLowerCase() + ' = $2 WHERE name = $3', [timesNameGreeted + 1, timesLangGreeted + 1, inputName]);
+  async function updateQuery(language, inputName) {
+    let currEntry = await selectName(inputName)
+    await pool.query('UPDATE names SET counter = $1, ' + language.toLowerCase() + ' = $2 WHERE name = $3', [currEntry.counter + 1, currEntry[language.toLowerCase()] + 1, inputName]);
   }
 
   async function insertQuery(language, inputName) {

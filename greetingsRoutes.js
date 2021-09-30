@@ -10,10 +10,9 @@ module.exports = function greetRoutes(pool) {
         if (language) {
             if (inputName) {
                 if (/^[a-zA-Z]*$/g.test(inputName)) {
-                    let currName = await factory.selectName(inputName);
-
-                    if (currName) {
-                        await factory.updateQuery(language, currName.counter, currName[language.toLowerCase()], inputName);
+                    
+                    if (await factory.selectName(inputName)) {
+                        await factory.updateQuery(language, inputName);
                     } else {
                         await factory.insertQuery(language, inputName);
                     }

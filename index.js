@@ -22,7 +22,7 @@ const pool = new Pool({
 pool.connect();
 
 let factory = Factory(pool);
-let greetRoutes = GreetRoutes(pool);
+let greetRoutes = GreetRoutes(pool, factory);
 
 app.use(session({
     secret: 'keyboard cat5 run all 0v3r',
@@ -39,24 +39,15 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get("/", function (req, res) {
-    greetRoutes.root(res);
-});
+app.get("/", greetRoutes.root);
 
-app.get('/greetings', function (req, res) {
-    greetRoutes.greetings(req, res, factory)
-})
-app.get('/greeted', async function (req, res) {
-    greetRoutes.greeted(res, factory);
-})
+app.get('/greetings', greetRoutes.greetings);
 
-app.get('/greetedname/:name', async function (req, res) {
-    greetRoutes.greetedname(req, res, factory);
-})
+app.get('/greeted', greetRoutes.greeted);
 
-app.get("/reset/:route", function (req, res) {
-    greetRoutes.reset(req, res);
-});
+app.get('/greetedname/:name', greetRoutes.greetedname);
+
+app.get("/reset/:route", greetRoutes.reset);
 
 let PORT = process.env.PORT || 3012;
 

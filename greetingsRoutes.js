@@ -1,6 +1,6 @@
-module.exports = function greetRoutes(pool) {
+module.exports = function greetRoutes(pool, factory) {
 
-    async function greetings(req, res, factory) {
+    async function greetings(req, res) {
         let inputName;
         if (req.query.nameInput) {
             inputName = req.query.nameInput.toLowerCase();
@@ -10,7 +10,7 @@ module.exports = function greetRoutes(pool) {
         if (language) {
             if (inputName) {
                 if (/^[a-zA-Z]*$/g.test(inputName)) {
-                    
+
                     if (await factory.selectName(inputName)) {
                         await factory.updateQuery(language, inputName);
                     } else {
@@ -33,16 +33,16 @@ module.exports = function greetRoutes(pool) {
 
     }
 
-    function root(res) {
+    function root(req, res) {
         res.redirect('/greetings');
     }
 
-    async function greeted(res, factory) {
+    async function greeted(req, res) {
         let names = await factory.selectAll();
         res.render('greeted', { names: await factory.styleNames(names) });    
     }
 
-    async function greetedname(req, res, factory) {
+    async function greetedname(req, res) {
         let names = await factory.selectName(req.params.name.toLowerCase());
         res.render('greetedname', { name: names.name, counter: names.counter, english: names.english, afrikaans: names.afrikaans, xhosa: names.xhosa });    
     }

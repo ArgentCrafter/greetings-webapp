@@ -21,7 +21,9 @@ describe('Tests:', () => {
 
         it('Should be able to insert a new entry:', async function () {
             await factory.insertQuery("english", "Testing");
-            assert.equal(await factory.selectName("Testing"), "Testing");
+            let temp = await factory.selectName("Testing").name;
+            console.log("temp: " + temp);
+            assert.equal(await factory.selectName("Testing").name, "Testing");
             await pool.query('DElETE FROM names WHERE name = Testing');
         })
 

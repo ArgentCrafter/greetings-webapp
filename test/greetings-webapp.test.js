@@ -20,7 +20,7 @@ describe('Tests:', () => {
     describe('Database tests:', function () {
 
         it('Should be able to insert a new entry:', async function () {
-            factory.insertQuery("english", "Testing");
+            await factory.insertQuery("english", "Testing");
             assert.equal(await factory.selectName("Testing"), "Testing");
             pool.query('DElETE FROM names WHERE name = Testing');
         })

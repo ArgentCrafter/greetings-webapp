@@ -1,4 +1,5 @@
 module.exports = function greetFunctions(pool) {
+
   function displayString(input, input2) {
     return `${input2}${input[0].toUpperCase() + input.slice(1).toLowerCase()}!`;
   }
@@ -34,6 +35,7 @@ module.exports = function greetFunctions(pool) {
   }
 
   async function selectName(name) {
+    // console.log(await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()]));
     return await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0];
   }
 

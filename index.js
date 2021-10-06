@@ -9,8 +9,6 @@ const { Pool } = require('pg');
 let app = express();
 
 const connectionString = process.env.DATABASE_URL || 'postgres://rntohclcqqooug:6e4d677f68a42e8f11d37d49692c964ce319903d08edd57a1e6fbbb394139f1b@ec2-18-215-44-132.compute-1.amazonaws.com:5432/dbfr12j9n97iqk';
-//'postgresql://jaden:codex123@localhost:5432/names_greeted'
-//'postgres://rntohclcqqooug:6e4d677f68a42e8f11d37d49692c964ce319903d08edd57a1e6fbbb394139f1b@ec2-18-215-44-132.compute-1.amazonaws.com:5432/dbfr12j9n97iqk'
 
 const pool = new Pool({
     connectionString,

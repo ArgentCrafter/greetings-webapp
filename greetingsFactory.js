@@ -36,9 +36,10 @@ module.exports = function greetFunctions(pool) {
   }
 
   async function selectName(name) {
-    console.log(name);
-    console.log(await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0]);
-    return await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0];
+    console.log("Name: " + name);
+    let temp = await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()]);
+    console.log("Selected Name:" + temp);
+    return temp;
   }
 
   function styleNames(names) {

@@ -22,7 +22,7 @@ describe('Tests:', () => {
         it('Should be able to insert a new entry:', async function () {
             await factory.insertQuery("english", "Testing");
             assert.equal(await factory.selectName("Testing"), "Testing");
-            pool.query('DElETE FROM names WHERE name = Testing');
+            await pool.query('DElETE FROM names WHERE name = Testing');
         })
 
         after(() => {

@@ -24,6 +24,7 @@ module.exports = function greetFunctions(pool) {
 
   async function insertQuery(language, inputName) {
     await pool.query('INSERT INTO names (name, counter, ' + language.toLowerCase() + ') VALUES ( $1, 1, 1)', [inputName])
+    console.log("Entry Inserted");
   }
 
   async function getDistinctNames() {
@@ -35,7 +36,7 @@ module.exports = function greetFunctions(pool) {
   }
 
   async function selectName(name) {
-    // console.log(await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()]));
+    console.log(await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0]);
     return await (await pool.query('SELECT * FROM names WHERE name = $1', [name.toLowerCase()])).rows[0];
   }
 
@@ -53,9 +54,9 @@ module.exports = function greetFunctions(pool) {
     let nameCount = await getDistinctNames();
     if (inputName) {
       return { count: nameCount, displayMessage: "Please select a language", displayClass: "red" };
-  } else {
+    } else {
       return { count: nameCount, displayMessage: "Please select a language and enter a name", displayClass: "black" };
-  }
+    }
   }
 
   return {

@@ -11,8 +11,6 @@ const pool = new Pool({
     }
 });
 
-pool.connect();
-
 let factory = Factory(pool);
 
 describe('Tests:', () => {

@@ -16,23 +16,6 @@ pool.connect();
 let factory = Factory(pool);
 
 describe('Tests:', () => {
-
-    describe('Database tests:', function () {
-
-        it('Should be able to insert a new entry:', async function () {
-            await factory.insertQuery("english", "Testing");
-            let temp = await factory.selectName("Testing").name;
-            console.log("temp: " + temp);
-            assert.equal(await factory.selectName("Testing").name, "Testing");
-            await pool.query('DElETE FROM names WHERE name = Testing');
-        })
-
-        after(() => {
-            pool.end()
-        })
-
-    })
-
     describe('Factory Function Tests:', () => {
 
         describe('Display String:', () => {
